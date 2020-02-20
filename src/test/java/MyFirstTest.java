@@ -1,34 +1,39 @@
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 
-import java.util.List;
-import java.util.Set;
-public class MyFirstTest {
 
-    private WebDriver webDriver;
-
-    @Before
-    public void init(){
-        System.setProperty("webdriver.gecko.driver","C:/Drivers/geckodriver.exe");
-        webDriver = new FirefoxDriver();
-        webDriver.manage().window().maximize();
-    }
+public class MyFirstTest extends TestCaseSettings {
 
     @Test
     public void test() throws InterruptedException {
-        webDriver.get("https://mail.ru/");
-        Thread.sleep(3000);
+        webDriver.get("https://yandex.ru/");
+        Thread.sleep(5000);
+        String title = webDriver.getTitle();
+        Assert.assertEquals("Яндекс", title);
     }
 
-    @After
-    public void after(){
-        webDriver.quit();
+
+
+    @Test
+    public void test2() throws InterruptedException {
+        webDriver.get("https://yandex.ru/");
+        Thread.sleep(3000);
+        webDriver.findElement(By.tagName("a")).click();
+        Thread.sleep(5000);
+        webDriver.findElement(By.id("passp-field-login")).sendKeys("r-oliftaev@yandex.ru");
+        webDriver.findElement(By.tagName("button")).submit();
+        Thread.sleep(2000);
+        webDriver.findElement(By.id("passp-field-passwd")).sendKeys("yandex20022020");
+        webDriver.findElement(By.tagName("button")).submit();
+        Thread.sleep(5000);
+        String login = webDriver.findElement(By.className("mail-User-Name")).getText();
+        Assert.assertEquals("r.oliftaev",login);
+
+
     }
+
 }
